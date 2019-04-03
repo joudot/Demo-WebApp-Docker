@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk-nanoserver-sac2016 AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-sdk-nanoserver-1809 AS build-env
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
@@ -10,7 +10,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-sac2016
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.3-nanoserver-1809
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "mywebapp.dll"]
